@@ -1,62 +1,60 @@
 package main
 
 import (
-    "bufio"
-    "fmt"
-    "os"
-    "strconv"
-    "strings"
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func bubbleSort(numbers []int) {
-    n := len(numbers)
-    for i := 0; i < n; i++ {
-        didSwap := false
-        for j := 0; j < n-1; j++ {
-            if numbers[j] > numbers[j+1] {
-                temp := numbers[j]
-                numbers[j] = numbers[j+1]
-                numbers[j+1] = temp
-                didSwap = true
-            }
-        }
-        if didSwap == false {
-            break
-        }
-    }
+	n := len(numbers)
+	for i := 0; i < n; i++ {
+		swapped := false
+		for j := 0; j < n-1-i; j++ {
+			if numbers[j] > numbers[j+1] {
+				numbers[j], numbers[j+1] = numbers[j+1], numbers[j]
+				swapped = true
+			}
+		}
+		if !swapped {
+			break
+		}
+	}
 }
 
 func main() {
-    fmt.Println("Enter numbers separated by spaces:")
+	fmt.Println("enter numbers seperated with spaces:")
 
-    reader := bufio.NewReader(os.Stdin)
-    input, err := reader.ReadString('\n')
-    if err != nil {
-        fmt.Println("Error reading input")
-        return
-    }
-    input = strings.TrimSpace(input)
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("issue reading input")
+		return
+	}
 
-    parts := strings.Split(input, " ")
+	input = strings.TrimSpace(input)
+	parts := strings.Split(input, " ")
 
-    var numbers []int
-    for i := 0; i < len(parts); i++ {
-        num, err := strconv.Atoi(parts[i])
-        if err != nil {
-            fmt.Println(parts[i], "is not a valid number, skipping...")
-            continue
-        }
-        numbers = append(numbers, num)
-    }
+	var numbers []int
+	for _, part := range parts {
+		num, err := strconv.Atoi(part)
+		if err != nil {
+			fmt.Printf("'%s' isnt a real number.\n", part)
+			continue
+		}
+		numbers = append(numbers, num)
+	}
 
-    if len(numbers) == 0 {
-        fmt.Println("No valid numbers entered, exiting.")
-        return
-    }
+	if len(numbers) == 0 {
+		fmt.Println("no real numbers entered")
+		return
+	}
 
-    fmt.Println("Numbers before sorting:", numbers)
+	fmt.Println(numbers)
 
-    bubbleSort(numbers)
+	bubbleSort(numbers)
 
-    fmt.Println("Numbers after sorting:", numbers)
+	fmt.Println("here is sorted numbers", numbers)
 }
